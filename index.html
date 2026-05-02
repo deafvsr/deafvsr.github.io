@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeafVSR: Personalizing Lip Reading for Deaf Speakers</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://akshatsanghvi211103.github.io/">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://hypernerf.github.io">
+              HyperNeRF
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav> -->
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">DeafVSR: Personalizing Lip Reading for Deaf Speakers</h1>
+            <!-- <h1 class="title is-1 publication-title">(In progress)</h1> -->
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://akshatsanghvi211103.github.io">Akshat Sanghvi</a><sup>† 1</sup>,</span>
+              <span class="author-block">
+                <a href="mailto:vansh.garg@research.iiit.ac.in">Vansh Garg</a><sup>† 1</sup>,</span>
+              <span class="author-block">
+                <a href="https://rudrabha.github.io">Rudrabha Mukhopadhyay</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://faculty.iiit.ac.in/~jawahar">C.V. Jawahar</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://vinaypn.github.io">Vinay Namboodiri</a><sup>2</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>IIIT Hyderabad</span>
+              <span class="author-block"><sup>2</sup>University of Bath</span>
+            </div>
+            <div class="is-size-5 same-contribution">
+              <span class="author-block"><sup>†</sup>Equal Contribution</span>
+            </div>
+            <div class="is-size-5 same-contribution">
+              <span class="author-block">(under review, ICASSP)</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <span class="link-block">
+                  <a href="https://www.youtube.com/watch?v=u2FXENwkaAI/"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Dataset Link. -->
+                <span class="link-block">
+                  <a href="" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                  </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Video</h2>
+          <div class="publication-video">
+            <!-- <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0" frameborder="0"
+              allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+            <iframe width="1192" height="671" src="https://www.youtube.com/embed/u2FXENwkaAI"
+              title="Can Siri Understand My Deaf Voice? PART 2!" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+              style="border: 5px solid #000; border-radius: 10px;">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Automatic lip reading is considered to be one of the most important assistive technologies for the deaf
+              community, but generic models
+              often struggle to lip read due to the unique articulatory patterns of deaf speakers. This paper presents a
+              personalized approach to
+              address this challenge. We collect data from multiple deaf speakers and propose a method to adapt
+              state-of-the-art lip reading models
+              for individual users. Our approach employs layer-specific fine-tuning to identify the most effective
+              parameters for speaker-specific
+              learning, resulting in a parameter-efficient adaptation process. Experimental results show significant
+              improvements in word error rates
+              compared to generic models.
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video> -->
+        <h2 class="title is-3 has-text-centered">Framework</h2>
+        <br>
+        <img src="./static/images/banner_website.drawio.png" class="interpolation-image"
+          alt="Interpolate start reference image." />
+        <h2 class="subtitle has-text-centered">
+          <br>
+          <span class="dnerf">DeafVSR</span>
+          Personalization Framework for Deaf Speaker Lip-Reading
+        </h2>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero is-light is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Deaf Speakers</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/benny.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/cochlear.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/deafdaydreamer.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/mia_sandra.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-blueshirt">
+            <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/realdeafdreamer.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Accented Speakers</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-steve">
+            <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/daniel_howell.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/emily_canham.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-shiba">
+            <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/riyadh.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-fullbody">
+            <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/jack.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-blueshirt">
+            <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/diane_jennings.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <br>
+      <!-- Animation. -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Dataset Collection and Annotation</h2>
+
+          <!-- Re-rendering. -->
+          <h3 class="title is-4 has-text-centered">Annotation Website</h3>
+          <div class="content has-text-centered">
+            <!-- <video id="replay-video" controls muted preload playsinline width="75%">
+              <source src="./static/videos/replay.mp4" type="video/mp4">
+            </video> -->
+            <img src="./static/images/annotation.jpeg" class="interpolation-image"
+              alt="Interpolate start reference image."
+              style="border: 2px solid #ccc; border-radius: 10px; padding: 10px;" />
+            <br>
+            <br>
+            <br>
+            <div>
+              <p>
+                During annotation, we are given a short video clip of the speaker, we start by carefully viewing the
+                video and analyse the mouth movements. If we find errors in the caption provided by the youtuber, we
+                modify
+                the caption according to what the person has actually spoken, and then save the changes, subsequently
+                moving
+                to the next clip. We repeat this for all the clips of the speaker, which are around 800 on average per
+                speaker.
+              </p>
+            </div>
+          </div>
+          <!--/ Re-rendering. -->
+
+        </div>
+      </div>
+      <br>
+      <!-- Animation. -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Results</h2>
+
+          <!-- Re-rendering. -->
+          <h3 class="title is-4 has-text-centered">Fine-Tuning Experiments</h3>
+          <div class="content has-text-centered">
+            <!-- <video id="replay-video" controls muted preload playsinline width="75%">
+              <source src="./static/videos/replay.mp4" type="video/mp4">
+            </video> -->
+            <img src="./static/images/finetuning_experiments_table_and_architecture.png" class="interpolation-image"
+              alt="Interpolate start reference image."
+              style="border: 2px solid #ccc; border-radius: 10px; padding: 10px;" />
+            <br>
+            <br>
+            <div class="content has-text-centered">
+              <p>
+                We identify the important parts of the Auto-AVSR architecture, which are crucial for personalization. We
+                follow a systematic approach to choose which layers to finetune, and finally go down till the mid-conv
+                layers of the conformer, being the most parameter efficient. Just 9% of the parameters contributes to
+                50% of the personalization. Also, fine-tuning only the encoder leads to equivalent performance to
+                full model fine-tuning.
+              </p>
+            </div>
+          </div>
+          <br>
+          <!-- Re-rendering. -->
+          <h3 class="title is-4 has-text-centered">Amount of Data Variation</h3>
+          <div class="content has-text-centered">
+            <!-- <video id="replay-video" controls muted preload playsinline width="75%">
+              <source src="./static/videos/replay.mp4" type="video/mp4">
+            </video> -->
+            <img src="./static/images/data_variation_plotly2.png" class="interpolation-image"
+              alt="Interpolate start reference image."
+              style="border: 2px solid #ccc; border-radius: 10px; padding: 10px;" />
+            <br>
+            <br>
+            <div class="content has-text-centered">
+              <p>
+                We investigate the effect of the amount of data on the level
+                of personalization. For this, we fine-tuned the model with
+                varying amounts of data. We observe that full fine-tuning the
+                model on just ten minutes and twenty minutes of the data gives
+                38.3% and 65.7% of improvement as compared to the model
+                trained on 40 minutes of the data.
+              </p>
+            </div>
+          </div>
+          <!--/ Re-rendering. -->
+
+        </div>
+      </div>
+      <br>
+      <br>
+      <!-- Animation. -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Dataset Graphs</h2>
+
+          <!-- Re-rendering. -->
+          <h3 class="title is-4 has-text-centered">Visualizations</h3>
+          <div class="content has-text-centered">
+            <!-- <video id="replay-video" controls muted preload playsinline width="75%">
+              <source src="./static/videos/replay.mp4" type="video/mp4">
+            </video> -->
+            <img src="./static/images/dataset_boundary.drawio.png" class="interpolation-image"
+              alt="Interpolate start reference image."
+              style="border: 2px solid #ccc; border-radius: 10px; padding: 10px;" />
+          </div>
+          <div class="content has-text-centered">
+            <p>
+              Data Visualization of 5 speakers each for both deaf and accented, in the accented order of difficulty
+            </p>
+          </div>
+          <!--/ Re-rendering. -->
+
+        </div>
+      </div>
+      <!-- Animation. -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Failure Cases</h2>
+
+          <!-- Re-rendering. -->
+          <!-- <h3 class="title is-4 has-text-centered">Visualizations</h3> -->
+          <!--/ Re-rendering. -->
+          <div class="content">
+            <table border="1" style="border-collapse: collapse; width: 100%;">
+              <thead>
+                <tr>
+                  <th>Ground Truth</th>
+                  <th>Pre-trained Model</th>
+                  <th>Fine-tuned Model</th>
+                  <th>Comments</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>WHAT IS YOUR FAVOURITE FAMILY VACATION</td>
+                  <td>WHAT IS YOUR FAVOURITE FAMILY INVITATION</td>
+                  <td>WHAT IS YOUR FAVOURITE FAMILY VACATION</td>
+                  <td>Similar sounding words disparity fixed</td>
+                </tr>
+                <tr>
+                  <td>THERE'S A WHITE DOT IT'S HARD TO SEE BECAUSE YOU CAN'T REALLY CAN SEE INSIDE OF MY MOUTH</td>
+                  <td>IT'S LIKE A WAX SOCK IT'S HARD TO SEE BECAUSE OBVIOUSLY YOU CAN'T SEE INSIDE BUT BOTH</td>
+                  <td>IT'S A WHITE DOG IT'S HARD TO SEE BECAUSE OF THE INSIDE OF MY MOUTH</td>
+                  <td>Long sentence, many words fixed</td>
+                </tr>
+                <tr>
+                  <td>SO I THOUGHT IT WOULD BE GREAT TO SHOW YOU GUYS EVERYTHING I EAT IN A DAY</td>
+                  <td>SO WE'RE TRYING TO SHOW YOU GUYS WHY</td>
+                  <td>SO I THOUGHT I WOULD BE ABLE TO SHOW YOU GUYS WHAT I EAT IN A DAY</td>
+                  <td>Sentence cut off fixed, learnt how and when the speaker pauses</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="content has-text-centered">
+              <p>
+                Examples from deaf speakers. We can see that there are many cases where the pre-trained model fails on a
+                clip, giving sometimes similar outputs (similar articulation), but after finetuning it becomes much clearer,
+                meaning that the model has adapted to the style of the speaker. However, we can still see that the
+                finetuning is not perfect and there are many mistakes
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Animation. -->
+      <!-- <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Application</h2>
+
+          <h3 class="title is-4">Use-case</h3>
+          <div class="content has-text-centered">
+            <video id="replay-video" controls muted preload playsinline width="75%">
+              <source src="./static/videos/replay.mp4" type="video/mp4">
+            </video>
+          </div>
+
+        </div>
+      </div> -->
+      <!--/ Animation. -->
+
+
+      <!-- Concurrent Work. -->
+      <!-- <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Related Links</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              There's a lot of excellent work that was introduced around the same time as ours.
+            </p>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Concurrent Work. -->
+
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{akshat2024deafvsr,
+  author    = {Sanghvi, Akshat and Garg, Vansh and Mukhopadhyay, Rudrabha and Jawahar, C. V. and Namboodiri, Vinay P.},
+  title     = {DeafVSR: Personalizing Lip Reading for Deaf Speakers},
+  journal   = {arxiv link put here},
+  year      = {2024},
+}</code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <!-- <div class="content has-text-centered">
+        <a class="icon-link" href="./static/videos/nerfies_paper.pdf">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div> -->
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              This means you are free to borrow the <a href="https://github.com/nerfies/nerfies.github.io">source
+                code</a> of this website,
+              we just ask that you link back to this page in the footer.
+              Please remember to remove the analytics code included in the header of the website which
+              you do not want on your website.
+            </p>
+            <p>&copy; 2024 DeafVSR. <a href="legal-disclaimer.html">Legal Disclaimer</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
